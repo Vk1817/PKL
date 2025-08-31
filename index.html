@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
+    <title>Watch Stream</title>
     <style>
-        /* General Page Styling */
         body {
             font-family: 'Arial', sans-serif;
             margin: 0;
@@ -19,28 +18,6 @@
             min-height: 100vh;
             text-align: center;
         }
-
-        /* Glowing Effect for Message */
-        .loading-message {
-            font-size: 18px;
-            font-weight: bold;
-            color: #ffcc00;
-            margin-bottom: 10px;
-            padding: 10px 20px;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            text-align: center;
-            box-shadow: 0 0 10px #ffcc00, 0 0 20px #ffcc00, 0 0 30px #ffcc00;
-            animation: glow 1.5s infinite alternate;
-        }
-
-        @keyframes glow {
-            0% { box-shadow: 0 0 10px #ffcc00, 0 0 20px #ffcc00, 0 0 30px #ffcc00; }
-            100% { box-shadow: 0 0 15px #ffcc00, 0 0 25px #ffcc00, 0 0 35px #ffcc00; }
-        }
-
-        /* Video Player Styling */
         .player-container {
             width: 95%;
             max-width: 1200px;
@@ -49,69 +26,56 @@
             border-radius: 15px;
             overflow: hidden;
             background: #000;
+            display: none; /* Hidden by default */
         }
-
         .player-container iframe {
             border-radius: 15px;
             width: 100%;
             height: 100%;
         }
-
-        /* Join Telegram Button */
-        .join-telegram-container {
-            margin-top: 20px;
-            text-align: center;
+        .telegram-promo {
+            margin-top: 30px;
         }
-
-        .join-telegram-btn {
-            padding: 10px 20px;
-            font-size: 16px;
+        .promo-btn {
+            padding: 12px 30px;
+            font-size: 18px;
             font-weight: bold;
             color: white;
             background-color: #008fd6;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            margin: 0 15px;
+            transition: background 0.2s;
         }
-
-        .join-telegram-btn:hover {
+        .promo-btn:hover {
             background-color: #006bb3;
         }
     </style>
 </head>
 <body>
 
-    <!-- Loading Message -->
+    <h2>To Watch the Stream, Please Join Our Telegram Channel</h2>
     
+    <div class="telegram-promo" id="telegramPromo">
+        <button class="promo-btn" onclick="window.open('https://t.me/+yTkSuf20ZUtjMGVl', '_blank')">Join Now</button>
+        <button class="promo-btn" onclick="showStream()">Already Joined</button>
+    </div>
 
-    <!-- Video Player Section -->
-    <div class="player-container">
+    <div class="player-container" id="playerContainer">
         <div style="padding:56.25% 0 0 0;position:relative;">
             <iframe id="contentFrame" sandbox="allow-forms allow-pointer-lock allow-same-origin allow-scripts allow-top-navigation" 
-            frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen="true" scrolling="no" 
-            src="https://star-sports-hindi-1-hd.vercel.app/" style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+                frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen="true" scrolling="no" 
+                src="https://star-sports-hindi-1-hd.vercel.app/" style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
         </div>
     </div>
 
-    <!-- Join Telegram Button --
-    <div class="join-telegram-container">
-        <button class="join-telegram-btn" onclick="window.open('https://t.me/+yTkSuf20ZUtjMGVl', '_blank')">Join Telegram Channel</button>
-    </div>
-<script>
-// alert('Join Our Telegram For Latest update')
-         if (confirm("Join Our Telegram Channel @the_cricket_corner") == true) {
-         window.open("
-https://t.me/+yTkSuf20ZUtjMGVl", '_blank');
-     }
-</script>
-<script>
-// alert('Join Our Telegram For Latest update')
-         if (confirm("Join Our Telegram Channel @the_cricket_corner") == true) {
-         window.open("https://t.me/+yTkSuf20ZUtjMGVl", '_blank');
-     }
-</script-->
-
+    <script>
+        function showStream() {
+            document.getElementById('telegramPromo').style.display = 'none';
+            document.getElementById('playerContainer').style.display = 'block';
+        }
+    </script>
 </body>
 </html>
-
