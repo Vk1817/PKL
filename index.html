@@ -1,47 +1,260 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <meta http-equiv="refresh" content="0; url=https://t.me/+yTkSuf20ZUtjMGVl">
-</head>
-<body>
-  <p>If you are not redirected automatically,
-     <a href="https://t.me/+yTkSuf20ZUtjMGVl">click here</a>.
-  </p>
-</body>
-</html><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Player</title>
-    <link href="https://vjs.zencdn.net/7.14.3/video-js.css" rel="stylesheet">
+    <title>Live Stream</title>
     <style>
-        body, html {
+        /* General Page Styling */
+        :root {
+            --primary-color: #0088cc;
+            --secondary-color: #2c3e50;
+            --highlight-color: #00aaff;
+            --text-color: #ffffff;
+            --dark-bg: #1a1a1a;
+            --card-bg: #252a34;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
             margin: 0;
             padding: 0;
-            height: 100%;
-            overflow: hidden;
-            background-color: #000;
+            background: linear-gradient(135deg, var(--dark-bg), var(--secondary-color));
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; /* Align content to the top */
+            min-height: 100vh;
+            text-align: center;
+            padding-top: 20px;
+            overflow-x: hidden;
         }
-        #player {
+
+        /* Player Container Styling */
+        .player-container {
+            width: 95%;
+            max-width: 1200px;
+            margin: 20px auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            overflow: hidden;
+            background: #000;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .player-container iframe {
+            display: block;
+            border: none;
             width: 100%;
             height: 100%;
+        }
+
+        /* --- Telegram Pop-up Styles --- */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .popup-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .popup-content {
+            background: linear-gradient(145deg, #2c3e50, #1a222a);
+            padding: 30px 40px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+        }
+
+        .popup-overlay.active .popup-content {
+            transform: scale(1);
+        }
+
+        .popup-content h2 {
+            margin-top: 0;
+            font-size: 28px;
+            color: var(--highlight-color);
+            font-weight: 700;
+        }
+
+        .popup-content p {
+            margin-bottom: 30px;
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .popup-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .popup-btn {
+            padding: 15px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .popup-btn.join-now {
+            background: linear-gradient(90deg, #0078d4, #00bcf2);
+            box-shadow: 0 4px 15px rgba(0, 150, 255, 0.4);
+        }
+
+        .popup-btn.join-now:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 150, 255, 0.6);
+        }
+
+        .popup-btn.already-joined {
+            background-color: transparent;
+            border: 2px solid #555;
+            color: #aaa;
+        }
+
+        .popup-btn.already-joined:hover {
+            background-color: #555;
+            color: white;
+        }
+
+        /* --- Main Join Telegram Button Styles --- */
+        .main-join-telegram-btn {
+            margin-top: 20px;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(45deg, #0088cc, #005f8e);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 136, 204, 0.5);
+            transition: all 0.3s ease-in-out;
+            animation: pulse 2s infinite;
+        }
+
+        .main-join-telegram-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 136, 204, 0.7);
+            animation-play-state: paused;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 5px 20px rgba(0, 136, 204, 0.5);
+            }
+            50% {
+                transform: scale(1.03);
+                box-shadow: 0 8px 25px rgba(0, 136, 204, 0.7);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 5px 20px rgba(0, 136, 204, 0.5);
+            }
         }
     </style>
 </head>
 <body>
-    <video id="player" class="video-js vjs-default-skin" controls preload="auto">
-        <source src="https://bpprod5linear.akamaized.net/bpk-tv/starsports1/starsports1.isml/starsports1-audio_200000_eng=200000-video=8000000.m3u8" type="application/x-mpegURL">
-    </video>
-    <script src="https://vjs.zencdn.net/7.14.3/video.js"></script>
+
+    <!-- Video Player Section -->
+    <div class="player-container">
+        <div style="padding:56.25% 0 0 0;position:relative;">
+            <iframe id="contentFrame" sandbox="allow-forms allow-pointer-lock allow-same-origin allow-scripts allow-top-navigation" 
+            frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen="true" scrolling="no" 
+            src="https://star-sports-hindi-1-hd.vercel.app/" style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+        </div>
+    </div>
+
+    <!-- Main Join Telegram Button -->
+    <button class="main-join-telegram-btn" onclick="openTelegram()">
+        Join Our Telegram Channel
+    </button>
+
+    <!-- Telegram Pop-up -->
+    <div class="popup-overlay" id="telegramPopup">
+        <div class="popup-content">
+            <h2>Join Our Community!</h2>
+            <p>Get the latest updates and exclusive content by joining our Telegram channel.</p>
+            <div class="popup-buttons">
+                <button class="popup-btn join-now" id="joinNowBtn">Join Now</button>
+                <button class="popup-btn already-joined" id="alreadyJoinedBtn">Already Joined</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        var player = videojs('player', {
-            html5: {
-                vhs: {
-                    overrideNative: true
-                }
+        const telegramLink = 'https://t.me/+OACGYQBHrIJmM2Y1';
+        const popup = document.getElementById('telegramPopup');
+        const joinNowBtn = document.getElementById('joinNowBtn');
+        const alreadyJoinedBtn = document.getElementById('alreadyJoinedBtn');
+
+        // Function to open the Telegram link
+        function openTelegram() {
+            window.open(telegramLink, '_blank');
+        }
+
+        // Function to show the popup
+        function showPopup() {
+            popup.classList.add('active');
+        }
+
+        // Function to hide the popup
+        function hidePopup() {
+            popup.classList.remove('active');
+        }
+
+        // Show popup when the page loads
+        window.addEventListener('load', () => {
+            // A small delay to let the page render first
+            setTimeout(showPopup, 1000);
+        });
+
+        // Event listeners for popup buttons
+        joinNowBtn.addEventListener('click', () => {
+            openTelegram();
+            hidePopup();
+        });
+
+        alreadyJoinedBtn.addEventListener('click', hidePopup);
+
+        // Close popup if the user clicks on the overlay
+        popup.addEventListener('click', (event) => {
+            if (event.target === popup) {
+                hidePopup();
             }
         });
     </script>
+
 </body>
 </html>
