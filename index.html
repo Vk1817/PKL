@@ -1,190 +1,124 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Player</title>
-    <style>
-        /* Reset default styles and set a black background */
-        html, body {
-            margin: 0;
-            padding: 0;
-            background-color: #000;
-            font-family: 'Arial', 'Helvetica Neue', sans-serif;
-            color: #fff;
-            box-sizing: border-box;
-            height: 100%;
-        }
-
-        /* A wrapper to contain the video player and controls */
-        .content-wrapper {
-            display: flex;
-            flex-direction: column;
-            width: 95%;
-            max-width: 960px;
-            margin: 0 auto; /* Center the container horizontally */
-            padding-top: 15px;
-        }
-
-        /* Fixed aspect ratio container for the video player */
-        .video-player-section {
-            position: relative;
-            padding-top: 56.25%; /* 16:9 Aspect Ratio */
-            width: 100%;
-            background-color: #000;
-            margin-bottom: 20px; /* Space between player and buttons */
-        }
-
-        /* Position the JW Player inside the aspect ratio container */
-        #jwplayerDiv {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        /* Container for the control buttons below the player */
-        .controls-section {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px; /* Space between the buttons and info box */
-            padding: 0 10px;
-            box-sizing: border-box;
-        }
-
-        /* Styling for the "Join Telegram" button */
-        .join-telegram-btn {
-            background-color: #0088cc;
-            color: #ffffff;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 25px; /* Highly rounded corners */
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 18px;
-            transition: transform 0.2s ease, background-color 0.2s ease;
-            cursor: pointer;
-        }
-
-        .join-telegram-btn:hover {
-            background-color: #00aaff;
-            transform: scale(1.05);
-        }
-
-        /* Styling for the yellow information box */
-        .info-box {
-            background-color: #fce284; /* Yellow color from screenshot */
-            color: #333; /* Dark text for readability */
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 14px;
-            text-align: center;
-            width: 100%;
-            max-width: 400px;
-            box-sizing: border-box;
-            font-weight: 500;
-        }
-
-        /* Styling for the "Copy Link" button */
-        .copy-button {
-            padding: 12px 30px;
-            border: none;
-            border-radius: 6px;
-            background-color: #4a4a4a; /* Dark grey color */
-            color: white;
-            font-weight: bold;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .copy-button:hover {
-            background-color: #666666;
-        }
-
-    </style>
-    <!-- JW Player library -->
-    <script src="https://content.jwplatform.com/libraries/SAHhwvZq.js"></script>
-</head>
-<body>
-    
-    <!-- Main content wrapper to center everything -->
-    <div class="content-wrapper">
-        
-        <!-- The video player will be inserted here -->
-        <div class="video-player-section">
-            <div id="jwplayerDiv"></div>
-        </div>
-        
-        <!-- The controls section with Telegram link and copy feature -->
-        <div class="controls-section">
-            <a href="https://ttttt.me/+jXFxo1HWPlphZTU1" target="_blank" class="join-telegram-btn">Join Telegram</a>
-            
-            <div class="info-box">
-                To open the link, copy it and paste it into your phone's Chrome browser, otherwise it might not work.
-            </div>
-
-            <button class="copy-button" id="copyButton">Copy Link</button>
-        </div>
-    </div>
-
-    <script>
-        const pageUrl = window.location.href; // Get the current page URL
-        const copyButton = document.getElementById('copyButton');
-
-        // Event listener for the copy button
-        copyButton.addEventListener('click', () => {
-            // Using a temporary textarea element to copy text to the clipboard
-            const tempTextarea = document.createElement('textarea');
-            tempTextarea.value = pageUrl;
-            document.body.appendChild(tempTextarea);
-            tempTextarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(tempTextarea);
-            
-            const originalText = copyButton.textContent;
-            copyButton.textContent = 'Copied!';
-            setTimeout(() => {
-                copyButton.textContent = originalText;
-            }, 2000);
-        });
-
-        // Function to get the stream URL from the query parameter
-        function getQueryParam(param) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(param);
-        }
-
-        let streamUrl = getQueryParam("url");
-
-        // Default video if no URL is provided
-        const defaultVideo = {
-            url: "https://d2j1z10x2u8770.cloudfront.net/nasa-iss-spacewalk-m3u8-live.m3s",
-            title: "NASA ISS Live Feed"
-        };
-
-        if (!streamUrl) {
-            streamUrl = defaultVideo.url;
-        }
-
-        // Set up the JW Player
-        jwplayer("jwplayerDiv").setup({
-            playlist: [{
-                title: defaultVideo.title,
-                sources: [{
-                    file: streamUrl,
-                    type: "hls"
-                }]
-            }],
-            width: "100%",
-            height: "100%",
-            aspectratio: "16:9",
-            autostart: true,
-            controls: true
-        });
-    </script>
-</body>
+<!DOCTYPE html>  
+<html>  
+<head>  
+  <meta charset="UTF-8">  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+  <title>Prime By Crickcast</title>     
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.11/shaka-player.ui.min.js" crossorigin="anonymous"></script>  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.11/controls.min.css" crossorigin="anonymous">  
+  <style>  
+   * { margin: 0; padding: 0; box-sizing: border-box; }  
+    html, body {  
+      background: #000;  
+      height: 100vh;  
+      width: 100vw;  
+      overflow: hidden;  
+      font-family: system-ui, -apple-system, sans-serif;  
+    }  
+    .shaka-video-container {  
+      position: absolute;  
+      inset: 0;  
+      width: 100%;  
+      height: 100%;  
+    }  
+    video {  
+      width: 100%;  
+      height: 100%;  
+      background: #000;  
+      object-fit: contain;  
+    }  
+    .shaka-spinner-container,  
+    .shaka-spinner,  
+    .shaka-spinner-svg {  
+      display: none !important;  
+      visibility: hidden !important;  
+      opacity: 0 !important;  
+    }  
+  </style>  
+</head>  
+<body>  
+  <div class="shaka-video-container" data-shaka-player>  
+    <video autoplay playsinline preload="metadata" poster="https://i.ibb.co/pBzSKg3z/1586162092-020d20c6f8b5fd388ed06ba6929021b826007c55c5fa007f23d6fbac44c2e489-d.webp"></video>  
+  </div>  
+  
+  <script>  
+    document.addEventListener('DOMContentLoaded', async () => {  
+      shaka.polyfill.installAll();  
+  
+      if (!shaka.Player.isBrowserSupported()) {  
+        console.error('Browser not supported');  
+        return;  
+      }  
+  
+      const video = document.querySelector('video');  
+      const player = new shaka.Player();  
+      await player.attach(video);  
+  
+      const container = document.querySelector('.shaka-video-container');  
+      const ui = new shaka.ui.Overlay(player, container, video);  
+  
+      ui.configure({  
+        controlPanelElements: [  
+          'play_pause', 'time_and_duration', 'mute', 'volume',  
+          'spacer', 'language', 'captions', 'picture_in_picture',  
+          'quality', 'fullscreen'  
+        ],  
+        volumeBarColors: {  
+          base: 'rgba(255, 192, 203, 0.3)',  
+          level: 'rgb(255, 105, 180)'  
+        },  
+        seekBarColors: {  
+          base: 'rgba(255, 255, 0, 0.3)',  
+          buffered: 'rgba(255, 255, 0, 0.6)',  
+          played: 'rgb(255, 255, 0)'  
+        }  
+      });  
+  
+      // ✅ Your DRM Key + MPD URL  
+      let drmConfig = {  
+        clearKeys: {  
+          "2f5ed0dd0a0ca671dee3948dbbe023d4": "7039b2570d5d429c7f4a7a4058ba5135"  
+        }  
+      };  
+  
+      let streamUrl = "https://otte.live.fly.ww.aiv-cdn.net/sin-nitro/live/dash/enc/s6lart8ud5/out/v1/42768fe9ad134a1db6e6380ab404bf4c/cenc.mpd";  
+  
+      player.configure({  
+        drm: drmConfig,  
+        streaming: {  
+          lowLatencyMode: true,  
+          bufferingGoal: 15,  
+          rebufferingGoal: 2,  
+          bufferBehind: 15,  
+          retryParameters: {  
+            timeout: 10000,  
+            maxAttempts: 5,  
+            baseDelay: 300,  
+            backoffFactor: 1.2  
+          },  
+          segmentRequestTimeout: 8000,  
+          segmentPrefetchLimit: 2,  
+          useNativeHlsOnSafari: true  
+        },  
+        manifest: {  
+          retryParameters: {  
+            timeout: 8000,  
+            maxAttempts: 3  
+          }  
+        }  
+      });  
+  
+      player.addEventListener('error', (event) => {  
+        console.error('Shaka Player Error:', event.detail);  
+      });  
+  
+      try {  
+        await player.load(streamUrl);  
+        console.log("Stream loaded successfully");  
+      } catch (error) {  
+        console.error('Load error:', error);  
+      }  
+    });  
+  </script>  
+</body>  
 </html>
